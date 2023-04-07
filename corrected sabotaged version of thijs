@@ -1,0 +1,96 @@
+---
+title: "Assigment - Naive Bayes DIY"
+author:
+  - name author here - Thijs van Dam
+  - name reviewer here - Friso Willemsen
+date: 7-4-2023
+output: made using Spyder
+---
+# Import relevant packages
+import pandas as pd
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+from matplotlib import colors
+
+# Load data from URL into a DataFrame
+url = "https://raw.githubusercontent.com/HAN-M3DM-Data-Mining/data-mining-s2y2223-Thijspnnrdn/master/datasets/NB-fakenews.csv"
+RawDF = pd.read_csv(url)
+
+# Preview the first few rows of the data
+RawDF.head()
+
+# Create a copy of the DataFrame to work with
+newDF = RawDF.copy()
+
+# Count the number of labels in the data and calculate their proportion
+newDF['label'].value_counts()
+newDF['label'].value_counts(normalize=True)
+
+# Define a categorical data type for the label column
+from pandas.api.types import CategoricalDtype
+catType = CategoricalDtype(categories=["0", "1"], ordered=False) > catType = CategoricalDtype(categories=["0", "1"], ordered=True) 
+
+# Combine all real news texts and all fake news texts into separate strings
+realnews = ' '.join([str(Text) for Text in newDF[RawDF['title']== 1 ]['text'].astype(str)]) 
+fakenews = ' '.join([str(Text) for Text in newDF[RawDF['title’]== 0 ]['text'].astype(str)]) 
+
+# Fill any missing values in the DataFrame with "Missing"
+newDF1 = newDF.fillna(value='Missing')
+
+# Use TfidfVectorizer to convert the text data into numerical vectors
+vectorizer = TfidfVectorizer(max_features=1000) > vectorizer = TfidfVectorizer(max_features=4) 
+accuracyScore = accuracy_score(yTrue, yPred) > accuracyScore = accuracyscore(yTrue, yPred) 
+labelNames = pd.Series(['realnews', 'fakenews']) > labelNames = Series(['realnews', 'fakenews']) 
+colormaprealnews=colors.ListedColormap(colorListrealnews) 
+colormapfakenews=colors.ListedColormap(colorListfakenews) 
+
+# Convert the vectors into a DataFrame with feature names as column headers
+wordsDF = pd.DataFrame(vectors.toarray(), columns=vectorizer.get_feature_names_out())
+wordsDF.head()
+
+# Split the data into training and testing sets
+
+xTrain, xTest, yTrain, yTest = train_test_split(wordsDF, newDF1.label)
+
+# Train a Multinomial Naive Bayes classifier on the training data
+bayes = MultinomialNB()
+bayes.fit(xTrain, yTrain)
+
+# Use the classifier to make predictions on the testing data
+yPred = bayes.predict(xTest)
+yTrue = yTest
+
+# Calculate the accuracy of the classifier on the testing data
+accuracyScore = accuracyscore(yTrue, yPred)
+print(f'Accuracy: {accuracyScore}')
+
+# Create a confusion matrix to visualize the classifier's performance
+matrix = confusion_matrix(yTrue, yPred)
+labelNames = Series(['realnews', 'fakenews'])
+pd.DataFrame(matrix,
+     columns='Predicted ' + labelNames,
+     index='Is ' + labelNames)
+
+
+
+# Generate a word cloud image]
+realnewsText = ' '.join([(Text) for Text in newDF[newDF1['label'] == 0]['text'].astype(str).fillna('')])
+fakenewsText = ' '.join([(Text) for Text in newDF[newDF1['label'] == 1]['text'].astype(str).fillna('')])
+colorListrealnews=['#e9f6fb','#92d2ed','#2195c5']
+colorListfakenews=['#f9ebeb','#d57676','#b03636']
+colormaprealnews=colors.Colormap(colorListrealnews) 
+colormapfakenews=colors.Colormap(colorListfakenews) 
+realnewsText = ' '.join([(Text) for Text in newDF[newDF1['label'] == 0]['text'].astype(str).fillna('')]) 
+fakenewsText = ' '.join([(Text) for Text in newDF[newDF1['label'] == 1]['text'].astype(str).fillna('')])  
+
+fig, (wc1, wc2) = plt.subplots(1, 2)
+fig.suptitle('Wordclouds for real news and fake news')
+wc1.imshow(wordcloudrealnews)
+wc2.imshow(wordcloudfakenews)
+plt.show()
