@@ -23,7 +23,7 @@ pip install seaborn
 
 #import other relevant packages
 # Import packages
-import pandas as pd
+import pandas as 
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -53,7 +53,7 @@ import pandas as pd
 
 # Load the data from the URL
 url = "https://raw.githubusercontent.com/HAN-M3DM-Data-Mining/assignments/master/datasets/KNN-diabetes.csv"
-rawDF = pd.read_csv(url)
+rawDF = read_csv(url)
 
 # Inspect the loaded data
 rawDF.info()
@@ -77,7 +77,7 @@ print(propDiag)
 
 
 
-diag_count = cleanDF['Outcome'].value_counts()
+diagcount = cleanDF['Outcome'].value_counts()
 
 
 diag_prop = cleanDF['Outcome'].value_counts(normalize=False)
@@ -107,14 +107,14 @@ print(f'Normalized testSet1: {normalize(testSet1)}\n')
 print(f'Normalized testSet2: {normalize(testSet2)}\n')
 
 
-excluded_cols = ['Outcome']
+excluded_cols = ['out']
 X = cleanDF.loc[:, ~cleanDF.columns.isin(excluded_cols)]
 X = X.apply(normalize, axis=0)
 
 
 cols_of_interest = ['Pregnancies', 'Glucose',]
 summary_stats = X[cols_of_interest].describe()
-print(summary_stats)
+print(summary)
 
 
 
