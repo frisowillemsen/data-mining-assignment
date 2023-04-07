@@ -1,0 +1,138 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr  6 14:21:22 2023
+
+@author: frisowillemsen
+"""
+
+  title: "Assigment - kNN DIY"
+author:
+  - Friso Willemsen - Author
+- name reviewer here - Reviewer
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_notebook:
+  toc: true
+toc_depth: 2
+---
+python -m pip.pyz --help
+
+pip install seaborn
+
+
+#import other relevant packages
+# Import packages
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
+import warnings
+warnings.filterwarnings('ignore')
+
+```
+
+Choose a suitable dataset from [this](https://github.com/HAN-M3DM-Data-Mining/assignments/tree/master/datasets) folder and train  your own kNN model. Follow all the steps from the CRISP-DM model.
+
+## Business Understanding
+Diabetes is a health concern without a working medicine.
+There a medicins like insulin which can help out to relieve symptoms of diabetes. 
+Diabetes also comes in two types.
+Insulin help diabetics to regulate their blood sugar levels.
+
+
+
+## Data Understanding
+# Import necessary libraries
+import pandas as pd
+
+# Load the data from the URL
+url = "https://raw.githubusercontent.com/HAN-M3DM-Data-Mining/assignments/master/datasets/KNN-diabetes.csv"
+rawDF = pd.read_csv(url)
+
+# Inspect the loaded data
+rawDF.info()
+
+## Data Preparation
+# Create a copy of the loaded data for cleaning and preparation
+cleanDF = rawDF.copy()
+
+# Perform any necessary data cleaning and preparation steps here
+# In this case, there don't seem to be any issues with the raw data, so we can proceed directly to analysis.
+
+# Analysis
+# Count the number of diagnoses
+cntDiag = cleanDF['Outcome'].value_counts()
+# Calculate the proportion of each diagnosis
+propDiag = cleanDF['Outcome'].value_counts(normalize=True)
+
+# Output the results
+print(cntDiag)
+print(propDiag)
+
+
+
+diag_count = cleanDF['Outcome'].value_counts()
+
+
+diag_prop = cleanDF['Outcome'].value_counts(normalize=False)
+
+
+print(diag_count)
+print(diag_prop)
+
+
+cleanDF.info()
+
+
+cols_of_interest = ['Pregnancies', 'Insulin', 'BMI']
+summary_stats = cleanDF[cols_of_interest].describe()
+print(summary_stats)
+
+def normalize(x):
+    return (x - min(x)) / (max(x) - min(x))
+
+
+
+testSet1 = np.arange(1,6)
+testSet2 = np.arange(1,6) * [[10]]
+print(f'testSet1: {testSet1}\n')
+print(f'testSet2: {testSet2}\n')
+print(f'Normalized testSet1: {normalize(testSet1)}\n')
+print(f'Normalized testSet2: {normalize(testSet2)}\n')
+
+
+excluded_cols = ['Outcome']
+X = cleanDF.loc[:, ~cleanDF.columns.isin(excluded_cols)]
+X = X.apply(normalize, axis=0)
+
+
+cols_of_interest = ['Pregnancies', 'Glucose',]
+summary_stats = X[cols_of_interest].describe()
+print(summary_stats)
+
+
+
+## Modeling
+
+# Build a KNN model
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train, y_train)
+
+# Evaluate the model on the testing set
+accuracy = knn.score(X_test, y_test)
+print(f'Testing accuracy: {accuracy}')
+
+## Evaluation and Deployment
+##The modeling section first excludes the target variable from the dataset 
+##and applies the normalize() function to the remaining columns. 
+##Then, it splits the dataset into training and testing sets using 
+##the train_test_split() function. Finally, a KNN model is built with n_neighbors=5, 
+##fitted to the training set, and evaluated on the testing set using the score() function. 
+##The accuracy of the model is outputted using the print() function.
+##reviewer adds suggestions for improving the model
