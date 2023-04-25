@@ -1,4 +1,43 @@
----
+The changes that were made
+
+In line 17:
+'import pandas as' wasn't in the code so that is added.
+
+In line 47&48:
+realnews = ' '.join([str(Text) for Text in newDF[RawDF['label']== 0 ]['text'].astype(str)]) 
+fakenews = ' '.join([str(Text) for Text in newDF[RawDF['label']== 1 ]['text'].astype(str)])
+has been changed to 
+realnews = ' '.join([str(Text) for Text in newDF[RawDF['title']== 1 ]['text'].astype(str)]) 
+fakenews = ' '.join([str(Text) for Text in newDF[RawDF['title’]== 0 ]['text'].astype(str)]) 
+
+In line 85-88:
+vectorizer = TfidfVectorizer(max_features=1000) > vectorizer = TfidfVectorizer(max_features=4) 
+accuracyScore = accuracy_score(yTrue, yPred) > accuracyScore = accuracyscore(yTrue, yPred) 
+labelNames = pd.Series(['realnews', 'fakenews']) > labelNames = Series(['realnews', 'fakenews']) 
+colormaprealnews=colors.Colormap(colorListrealnews) 
+colormapfakenews=colors.Colormap(colorListfakenews) 
+Has been changed to: 
+vectorizer = TfidfVectorizer(max_features=1000) > vectorizer = TfidfVectorizer(max_features=4) 
+accuracyScore = accuracy_score(yTrue, yPred) > accuracyScore = accuracyscore(yTrue, yPred) 
+labelNames = pd.Series(['realnews', 'fakenews']) > labelNames = Series(['realnews', 'fakenews']) 
+
+In line 115&116:
+
+realnewsText = ' '.join([str(Text) for Text in newDF[newDF1['label'] == 0]['text'].astype(str).fillna('')]) 
+fakenewsText = ' '.join([str(Text) for Text in newDF[newDF1['label'] == 1]['text'].astype(str).fillna('')]) 
+has been changed to
+realnewsText = ' '.join([(Text) for Text in newDF[newDF1['label'] == 0]['text'].astype(str).fillna('')]) 
+fakenewsText = ' '.join([(Text) for Text in newDF[newDF1['label'] == 1]['text'].astype(str).fillna('')]) 
+ 
+In line: 113&114:
+colormaprealnews=colors.ListedColormap(colorListrealnews) 
+colormapfakenews=colors.ListedColormap(colorListfakenews) 
+has been changed to
+colormaprealnews=colors.Colormap(colorListrealnews) 
+colormapfakenews=colors.Colormap(colorListfakenews) 
+
+In line: 
+
 title: "Assigment - Naive Bayes DIY"
 author:
   - name author here - Thijs van Dam
@@ -47,8 +86,6 @@ newDF1 = newDF.fillna(value='Missing')
 vectorizer = TfidfVectorizer(max_features=1000) > vectorizer = TfidfVectorizer(max_features=4) 
 accuracyScore = accuracy_score(yTrue, yPred) > accuracyScore = accuracyscore(yTrue, yPred) 
 labelNames = pd.Series(['realnews', 'fakenews']) > labelNames = Series(['realnews', 'fakenews']) 
-colormaprealnews=colors.ListedColormap(colorListrealnews) 
-colormapfakenews=colors.ListedColormap(colorListfakenews) 
 
 # Convert the vectors into a DataFrame with feature names as column headers
 wordsDF = pd.DataFrame(vectors.toarray(), columns=vectorizer.get_feature_names_out())
